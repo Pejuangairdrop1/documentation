@@ -109,6 +109,18 @@
             ]
           }
         ]
+      },
+      {
+        "tab": "MCP Server",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": [
+              "mcp-server/overview",
+              "mcp-server/installation"
+            ]
+          }
+        ]
       }
     ]
   },

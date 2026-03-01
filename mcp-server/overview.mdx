@@ -1,0 +1,91 @@
+---
+title: "MCP Server"
+description: "Connect AI tools to Delora cross-chain routing through the Model Context Protocol (MCP)."
+"og:image": "https://docs.delora.build/images/OG.png"
+---
+
+The Delora MCP Server integrates with the [Delora API](https://api.delora.build/) to provide structured access to cross-chain swap and routing functionality via [MCP](https://modelcontextprotocol.io/). It allows AI tools to interact with chains, tokens, and routing logic using defined tools instead of manually constructing HTTP requests.
+
+MCP is a standardized protocol for connecting AI systems to external tools and services. Compatible clients can discover and invoke Delora tools directly through the protocol interface.
+
+<Warning>
+The server exposes read-only tools. It does not sign or broadcast transactions. Quote responses include unsigned transaction data that must be signed and submitted using your own wallet or backend infrastructure.
+</Warning>
+
+## Quickstart
+
+You can connect the hosted Delora MCP server directly in your MCP-compatible client. No local installation is required.
+Add the following configuration to your MCP client:
+
+``` json
+{
+  "mcpServers": {
+    "delora": {
+      "type": "http",
+      "url": "https://mcp.delora.build/mcp"
+    }
+  }
+}
+```
+
+After adding the configuration, your AI tool can immediately begin discovering available tools and requesting routing data.
+See [Installation](/mcp-server/installation) for tool-specific setup instructions and configuration examples.
+
+## How It Works
+
+The Delora MCP server wraps the REST API into MCP-compatible tools that AI agents can invoke directly.
+Instead of building raw HTTP requests, your AI tool works with structured methods such as `get_chains`, `get_token`, and `get_quote`.
+
+```
+AI Tool (Claude, Cursor, Copilot, etc.)
+    │
+    ▼
+MCP Protocol
+    │
+    ▼
+Delora MCP Server (https://mcp.delora.build/mcp)
+    │
+    ▼
+Delora API (https://api.delora.build/v1/)
+    │
+    ▼
+Cross-chain routing engine
+```
+
+This approach ensures consistent tool discovery and predictable integration behavior across supported AI environments.
+
+## Example Workflow
+
+A typical cross-chain routing flow using the Delora MCP server:
+
+<Steps>
+  <Step title="get_instructions">
+    Read how to use the server (chains, tokens, quote).
+  </Step>
+  <Step title="get_chains">
+    Get chain IDs and filter by chainTypes (EVM, SOLANA) if necessary.
+  </Step>
+  <Step title="get_token (chain, symbol) or get_tokens (chains)">
+    Get token addresses on the source and destination networks.
+  </Step>
+  <Step title="get_quote (originChainId, destinationChainId, amount, originCurrency, destinationCurrency, …)">
+    Get the best route, output amount, calldata, and gas estimate.
+  </Step>
+</Steps>
+
+After receiving the quote:
+
+* If required, approve tokens using your wallet.
+* Sign and broadcast the returned transaction data externally.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Installation" icon="download" href="/mcp-server/installation">
+    Setup instructions for AI models.
+  </Card>
+
+  <Card title="GitHub Repository" icon="github" href="https://github.com/DeloraProtocol/delora-mcp">
+    Source code and self-hosting guide.
+  </Card>
+</CardGroup>

@@ -1,0 +1,229 @@
+---
+title: "Installation"
+description: "Installation instructions how to connect Delora to your AI environment."
+"og:image": "https://docs.delora.build/images/OG.png"
+---
+
+You can either run the MCP server locally using the Delora package or connect directly to the hosted MCP endpoint.
+
+## 1. Use the Delora SDK or Hosted Package
+
+Run the Delora MCP server locally using the official package.
+
+### Quick Start (npx)
+
+Run directly without installing globally:
+
+``` bash
+npx -y @deloraprotocol/mcp@latest
+```
+
+<Info>
+This starts the server in stdio mode (default), which is suitable for most local AI agent integrations.
+</Info>
+
+### Installation from Source
+
+Clone and build manually:
+
+``` bash
+git clone https://github.com/DeloraProtocol/delora-mcp.git
+cd delora-mcp
+npm install
+npm run build
+```
+
+### Running the Server
+
+stdio mode (default):
+
+``` bash
+npx -y @deloraprotocol/mcp@latest
+# or from a cloned repository
+npm start
+```
+
+HTTP mode:
+
+``` bash
+MCP_TRANSPORT=http npx -y @deloraprotocol/mcp@latest
+# or from a cloned repository
+npm run start:http
+
+# Custom Port
+MCP_TRANSPORT=http PORT=3001 npx -y @deloraprotocol/mcp@lates
+```
+
+### Configuration for Agent Frameworks
+
+stdio configuration (local agents):
+
+``` json
+{
+  "delora": {
+    "type": "stdio",
+    "command": "npx",
+    "args": ["-y", "@deloraprotocol/mcp@latest"]
+  }
+}
+```
+
+Streamable HTTP:
+
+``` json
+"delora": {
+  "type": "streamable-http",
+  "url": "http://localhost:3001/mcp"
+}
+```
+
+#### Claude Code (CLI & IDE plugins)
+
+Add the MCP server:
+
+``` bash
+claude mcp add delora npx -- -y @deloraprotocol/mcp@latest
+# OR
+claude mcp add delora --transport http http://127.0.0.1:3000/mcp
+```
+
+Verify the connection:
+
+``` bash
+claude mcp list
+```
+
+#### Cursor
+
+Add to `.cursor/mcp.json` (project-level) or `~/.cursor/mcp.json` (global):
+
+``` json
+{
+  "mcpServers": {
+    "delora": {
+      "command": "npx",
+      "args": ["-y", "@deloraprotocol/mcp@latest"]
+    }
+  }
+}
+```
+
+#### GitHub Copilot (VS Code Chat)
+
+Add to `.vscode/mcp.json` in your workspace:
+
+``` json
+{
+  "mcpServers": {
+    "delora": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@deloraprotocol/mcp@latest"]
+    }
+  }
+}
+```
+
+#### Windsurf
+
+Add to `~/.codeium/windsurf/mcp_config.json`:
+
+``` json
+{
+  "mcpServers": {
+    "delora": {
+      "command": "npx",
+      "args": ["-y", "@deloraprotocol/mcp@latest"]
+    }
+  }
+}
+```
+
+### Development
+
+``` bash
+# Run in dev mode (no build needed)
+npm run dev
+
+# Test with MCP Inspector
+npm run inspect
+
+# Run tests
+npm test
+```
+
+## 2. Use the Delora Hosted MCP Server
+
+The fastest way to get started is by connecting to the hosted Delora MCP endpoint. No local installation required.
+
+MCP endpoint:
+
+```
+https://mcp.delora.build/mcp
+```
+
+Below are setup instructions for supported AI tools.
+
+### Claude Desktop
+
+Add to your Claude Desktop configuration file:
+
+* macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
+* Windows: `%APPDATA%\Claude\claude_desktop_config.json`
+
+``` json
+{
+  "mcpServers": {
+    "delora": {
+      "type": "http",
+      "url": "https://mcp.delora.build/mcp"
+    }
+  }
+}
+```
+
+### Claude Code
+
+Add via CLI:
+
+``` bash
+claude mcp add delora --transport http --url https://mcp.delora.build/mcp
+```
+
+Or create a `.mcp.json` file in your project root:
+
+``` json
+{
+  "servers": {
+    "delora": {
+      "type": "http",
+      "url": "https://mcp.delora.build/mcp"
+    }
+  }
+}
+```
+
+### Cursor
+
+Add to `.cursor/mcp.json` (project-level) or `~/.cursor/mcp.json` (global):
+
+``` json
+{
+  "mcpServers": {
+    "delora": {
+      "url": "https://mcp.delora.build/mcp"
+    }
+  }
+}
+```
+
+### Testing Your Setup
+
+You can verify that the MCP server is running correctly using the [MCP Inspector](https://github.com/modelcontextprotocol/inspector):
+
+``` bash
+npx @modelcontextprotocol/inspector --url https://mcp.delora.build/mcp
+```
+
+This will open a web UI at `http://localhost:6274` where you can browse and interact with all available tools.
+Alternatively, you can test your AI tool by sending a simple request to the server. If it is configured correctly, it will respond with the expected tool outputs.
