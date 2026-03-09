@@ -83,6 +83,26 @@
             "required": false,
             "description": "Specifies the maximum permissible slippage for a transaction, expressed as a decimal value. For example, 0.005 corresponds to a slippage of 0.5%.\n Allowed range: 0 ≤ x ≤ 1",
             "schema": { "type": "number" }
+          },
+          {
+            "name": "excludeBridges",
+            "in": "query",
+            "required": false,
+            "description": "List of bridge adapters that should be excluded from the `/quotes`. Bridge tool identifiers must be provided as a comma-separated list. Retrieve current bridge keys from the `/v1/tools` endpoint.",
+            "schema": { 
+              "type": "string",
+              "examples": ["relay", "relay, mayan"]
+            }
+          },
+          {
+            "name": "excludeExchanges",
+            "in": "query",
+            "required": false,
+            "description": "List of exchange adapters that should be excluded from the `/quotes`. Exchange tool identifiers must be provided as a comma-separated list. Retrieve current exchange keys from the `/v1/tools` endpoint.",
+            "schema": { 
+              "type": "string",
+              "examples": ["jupiter", "okx, across"]
+            }
           }
         ],
         "responses": {
