@@ -135,6 +135,36 @@
             ]
           }
         ]
+      },
+      {
+        "tab": " ",
+        "groups": [
+          {
+            "group": "Delora Widget",
+            "pages": [
+              "widget/overview"
+            ]
+          },
+          {
+            "group": "Basic Setup",
+            "pages": [
+              "widget/basic-setup/install-widget",
+              "widget/basic-setup/select-widget-variants",
+              "widget/basic-setup/configure-widget",
+              "widget/basic-setup/customize-widget",
+              "widget/basic-setup/monetize-widget"
+            ]
+          },
+          {
+            "group": "Advanced Setup",
+            "pages": [
+              "widget/advanced-setup/widget-events",
+              "widget/advanced-setup/wallet-management",
+              "widget/advanced-setup/internationalization",
+              "widget/advanced-setup/widget-api-reference"
+            ]
+          }
+        ]
       }
     ]
   },
